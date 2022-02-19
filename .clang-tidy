@@ -1,0 +1,24 @@
+---
+Checks: '*,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,-fuchsia-*,-hicpp-no-array-decay,-llvm-header-guard,-llvmlibc-*,-modernize-use-trailing-return-type,-readability-implicit-bool-conversion'
+#
+#  cppcoreguidelines-pro-bounds-array-to-pointer-decay
+#  hicpp-no-array-decay
+#    When you need them, you need them
+#
+#  fuchsia-*
+#    Very specific and way too strict
+#
+#  llvm-header-guard
+#    Differ from our style guidelines
+#
+#  llvmlibc-*
+#    Not applicable
+#
+#  modernize-use-trailing-return-type
+#    We are not that modern...
+#
+#  readability-implicit-bool-conversion
+#    Readability is a matter of opinion here
+#
+HeaderFilterRegex: '\/src\/'
+...

@@ -1,0 +1,3 @@
+n1 v1 dV c0 t i0 u Tfoo=bar x1.1 y2.1
+n2 v1 dV c0 t i0 u T x1.2 y2.2
+w3 v1 dV c0 t i0 u Tsome=tag Nn1,n2

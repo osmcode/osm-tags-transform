@@ -1,0 +1,13 @@
+Usage: osm-tags-transform [OPTIONS] INPUT_FILE
+
+Options:
+  -c, --config-file=CONFIG.lua  Set config file
+  -f, --output-format=FORMAT    Set output file format
+  -g, --geom-proc=TYPE          Geometry processing ('none' (default) or 'bbox')
+  -h, --help                    Show this help
+  -i, --index-type=INDEX        Set index type (default: 'flex_mem')
+  -I, --show-index-types        Show available index types
+  -o, --output=OUTPUT_FILE      Set output file name
+  -O, --overwrite               Allow an existing output file to be overwritten.
+  -v, --verbose                 Enable verbose mode
+  -V, --version                 Show version
