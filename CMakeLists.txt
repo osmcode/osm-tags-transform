@@ -22,7 +22,7 @@ option(WITH_LUAJIT "Build with LuaJIT support" OFF)
 #
 #------------------------------------------------------------------------------
 
-find_package(Osmium 2.17.3 REQUIRED COMPONENTS io)
+find_package(Osmium 2.15.4 REQUIRED COMPONENTS io)
 include_directories(SYSTEM ${OSMIUM_INCLUDE_DIRS} ${PROTOZERO_INCLUDE_DIR})
 set(LIBS ${OSMIUM_LIBRARIES})
 

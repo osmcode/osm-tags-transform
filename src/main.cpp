@@ -193,11 +193,10 @@ int main(int argc, char *argv[])
 
         vout << "Writing into '" << output_filename << "'.\n";
         osmium::io::File output_file{output_filename, output_format};
-        osmium::io::Writer writer{output_file, overwrite};
+        osmium::io::Reader reader{input_filename};
+        osmium::io::Writer writer{output_file, reader.header(), overwrite};
 
         vout << "Start processing '" << input_filename << "'...\n";
-        osmium::io::Reader reader{input_filename};
-        writer.set_header(reader.header());
         while (osmium::memory::Buffer buffer = reader.read()) {
             osmium::memory::Buffer out_buffer{
                 buffer.committed(), osmium::memory::Buffer::auto_grow::yes};
