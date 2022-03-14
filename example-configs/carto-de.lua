@@ -31,9 +31,8 @@ function process(objtype, object)
               object.tags[l10n_tag] = name
           end
       end
-      return object.tags
     end
-    return false
+    return object.tags
 end
 
 function ott.process_node(object)
