@@ -40,6 +40,8 @@ void show_help()
     std::cout << "  -I, --show-index-types        Show available index types\n";
     std::cout << "  -o, --output=OUTPUT_FILE      Set output file name\n";
     std::cout << "  -O, --overwrite               Allow an existing output file to be overwritten.\n";
+    std::cout << "  -u, --untagged=MODE           What to do with untagged objects "
+                 "('drop', 'copy' (default), or 'process')\n";
     std::cout << "  -v, --verbose                 Enable verbose mode\n";
     std::cout << "  -V, --version                 Show version\n";
 }
@@ -88,11 +90,27 @@ static geom_proc_type check_geom_proc(std::string const &geom_proc_name)
                              "'. Use 'none' or 'bbox'."};
 }
 
+static untagged_mode check_untagged(std::string const &mode)
+{
+    if (mode == "drop") {
+        return untagged_mode::drop;
+    }
+    if (mode == "copy") {
+        return untagged_mode::copy;
+    }
+    if (mode == "process") {
+        return untagged_mode::process;
+    }
+
+    throw std::runtime_error{"Unknown mode for -u, --untagged: '" + mode +
+                             "'. Use 'drop', 'copy', or 'process'."};
+}
+
 int main(int argc, char *argv[])
 {
-    char const *const short_options = "c:f:g:hi:Io:OvV";
+    char const *const short_options = "c:f:g:hi:Io:Ou:vV";
 
-    std::array<option, 11> const long_options = {
+    std::array<option, 12> const long_options = {
         {{"config-file", required_argument, nullptr, 'c'},
          {"output-format", required_argument, nullptr, 'f'},
          {"geom-proc", required_argument, nullptr, 'g'},
@@ -101,6 +119,7 @@ int main(int argc, char *argv[])
          {"show-index-types", no_argument, nullptr, 'I'},
          {"output", required_argument, nullptr, 'o'},
          {"overwrite", no_argument, nullptr, 'O'},
+         {"untagged", required_argument, nullptr, 'u'},
          {"verbose", no_argument, nullptr, 'v'},
          {"version", no_argument, nullptr, 'V'},
          {nullptr, 0, nullptr, 0}}};
@@ -112,6 +131,7 @@ int main(int argc, char *argv[])
     std::string index_name{"flex_mem"};
     geom_proc_type geom_proc = geom_proc_type::none;
     osmium::io::overwrite overwrite = osmium::io::overwrite::no;
+    auto untagged = untagged_mode::copy;
 
     bool verbose = false;
 
@@ -144,6 +164,9 @@ int main(int argc, char *argv[])
                 break;
             case 'O':
                 overwrite = osmium::io::overwrite::allow;
+                break;
+            case 'u':
+                untagged = check_untagged(optarg);
                 break;
             case 'v':
                 verbose = true;
@@ -189,7 +212,7 @@ int main(int argc, char *argv[])
             vout << "Using index type '" << index_name << "'\n";
         }
 
-        Handler handler{config_filename, index_name, geom_proc};
+        Handler handler{config_filename, index_name, geom_proc, untagged};
 
         vout << "Writing into '" << output_filename << "'.\n";
         osmium::io::File output_file{output_filename, output_format};

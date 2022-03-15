@@ -9,5 +9,6 @@ Options:
   -I, --show-index-types        Show available index types
   -o, --output=OUTPUT_FILE      Set output file name
   -O, --overwrite               Allow an existing output file to be overwritten.
+  -u, --untagged=MODE           What to do with untagged objects ('drop', 'copy' (default), or 'process')
   -v, --verbose                 Enable verbose mode
   -V, --version                 Show version

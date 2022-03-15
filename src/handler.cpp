@@ -96,8 +96,8 @@ static void push_osm_object_to_lua_stack(lua_State *lua_state,
 }
 
 Handler::Handler(std::string const &filename, std::string const &index_name,
-                 geom_proc_type geom_proc)
-: m_geom_proc(geom_proc)
+                 geom_proc_type geom_proc, untagged_mode untagged)
+: m_geom_proc(geom_proc), m_untagged(untagged)
 {
     if (m_geom_proc != geom_proc_type::none) {
         const auto &map_factory =
@@ -237,9 +237,11 @@ void add_tags(lua_State *lua_state, TBuilder *builder)
 
 void Handler::node(osmium::Node const &node)
 {
-    if (!m_process_node || node.tags().empty()) {
-        m_out_buffer->add_item(node);
-        m_out_buffer->commit();
+    if (!m_process_node || (node.tags().empty() && m_untagged != untagged_mode::process)) {
+        if (m_untagged == untagged_mode::copy) {
+            m_out_buffer->add_item(node);
+            m_out_buffer->commit();
+        }
         return;
     }
 
@@ -285,9 +287,11 @@ void Handler::find_bounding_box(osmium::Box *box, osmium::Way const &way)
 
 void Handler::way(osmium::Way const &way)
 {
-    if (!m_process_way || way.tags().empty()) {
-        m_out_buffer->add_item(way);
-        m_out_buffer->commit();
+    if (!m_process_way || (way.tags().empty() && m_untagged != untagged_mode::process)) {
+        if (m_untagged == untagged_mode::copy) {
+            m_out_buffer->add_item(way);
+            m_out_buffer->commit();
+        }
         return;
     }
 
@@ -349,9 +353,11 @@ void Handler::find_bounding_box(osmium::Box *box,
 
 void Handler::relation(osmium::Relation const &relation)
 {
-    if (!m_process_relation || relation.tags().empty()) {
-        m_out_buffer->add_item(relation);
-        m_out_buffer->commit();
+    if (!m_process_relation || (relation.tags().empty() && m_untagged != untagged_mode::process)) {
+        if (m_untagged == untagged_mode::copy) {
+            m_out_buffer->add_item(relation);
+            m_out_buffer->commit();
+        }
         return;
     }
 

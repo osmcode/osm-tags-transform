@@ -30,6 +30,12 @@ enum class geom_proc_type
     bbox = 1
 };
 
+enum class untagged_mode {
+    drop = 0,
+    copy = 1,
+    process = 2
+};
+
 /**
  * When C++ code is called from the Lua code we sometimes need to know
  * in what context this happens. These are the possible contexts.
@@ -90,7 +96,7 @@ class Handler : public osmium::handler::Handler
 {
 public:
     Handler(std::string const &filename, std::string const &index_name,
-            geom_proc_type geom_proc);
+            geom_proc_type geom_proc, untagged_mode untagged);
 
     void set_buffer(osmium::memory::Buffer *buffer) { m_out_buffer = buffer; }
 
@@ -133,6 +139,7 @@ private:
     osmium::Relation const *m_context_relation = nullptr;
 
     geom_proc_type m_geom_proc;
+    untagged_mode m_untagged;
     bool m_must_sort_node_index = true;
     bool m_must_sort_way_index = true;
 

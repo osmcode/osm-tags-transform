@@ -19,8 +19,8 @@ osm-tags-transform -c some_config.lua input.osm.pbf -o output.osm.pbf
 ## Lua Config File
 
 The Lua config file has to define three callback functions which are called
-for each node, way, or relation, respectively. The functions are not called
-for objects without tags, they are always copied "as is" to the output.
+for each node, way, or relation, respectively. (But see below for handling of
+objects without tags.)
 
 ```
 function ott.process_node(object)
@@ -39,9 +39,33 @@ end
 The `object` parameter of those functions has the field `id` with the OSM
 object id and the field `tags`, a Lua table with all the tags.
 
-The functions must return either `true` if the object should be copied to
-the output "as is", `false` if the object should not appear in the output or
-a Lua table with the tags it should have.
+The functions must return either `true` if the object should be copied to the
+output "as is", `false` if the object should be dropped or a Lua table with the
+tags it should have.
+
+Note that osm-tags-transform will **not** preserve reference-completeness
+of the data. Nodes are dropped from the file even if they might be referenced
+from ways and, similarly, objects that might be relation members can still
+be dropped. Use [`osmium getid -r`](https://docs.osmcode.org/osmium/latest/osmium-getid.html)
+to re-establish reference-completness afterwards if needed.
+
+Note that if there is no process function for this object type defined, the
+object is dropped, i.e. its as if there is a process function that always
+returns `false` (only it is more efficient).
+
+
+## Handling of untagged objects
+
+By default objects that have no tags at all are not sent to the process
+functions but just copied to the output. This optimizes for the most common
+use case where you are interested only in changing some tags and any object
+with no tags doesn't need changing. But there are other modes which you
+can choose with the `-u MODE` or --`untagged=MODE` option:
+
+* `drop` - Drop all untagged objects.
+* `copy` - Copy all untagged objects to the output. This is the default.
+* `process` - Send untagged objects to the `process_*()` functions.
+
 
 ## Geometry Processing
 
@@ -115,4 +139,3 @@ Copyright (C) 2022  Jochen Topf (jochen@topf.org)
 
 This program is available under the GNU GENERAL PUBLIC LICENSE Version 3.
 See the file LICENSE.txt for the complete text of the license.
-
