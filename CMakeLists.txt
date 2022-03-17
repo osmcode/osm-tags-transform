@@ -15,6 +15,10 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 option(BUILD_TESTS "Build test suite" OFF)
 option(WITH_LUAJIT "Build with LuaJIT support" OFF)
 
+if (NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE RelWithDebInfo)
+endif()
+
 
 #------------------------------------------------------------------------------
 #
