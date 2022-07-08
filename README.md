@@ -103,10 +103,11 @@ osm-tags-transform needs the following libraries:
 * [zlib](https://www.zlib.net/)
 * [Lua](https://www.lua.org/), optionally Lua JIT
 
-On Debian/Ubuntu you can install these with:
+On Debian/Ubuntu you can install these (and cmake) with:
 
 ```
 apt install \
+    cmake \
     libbz2-dev \
     libexpat1-dev \
     liblua5.3-dev \
