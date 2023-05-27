@@ -104,7 +104,7 @@ public:
     void way(osmium::Way const &way);
     void relation(osmium::Relation const &relation);
 
-    void output_memory_used(osmium::VerboseOutput *vout);
+    void output_memory_used(osmium::util::VerboseOutput *vout);
 
 private:
     using node_index_type =
