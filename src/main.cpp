@@ -203,7 +203,7 @@ int main(int argc, char *argv[])
     }
 
     try {
-        osmium::VerboseOutput vout{verbose};
+        osmium::util::VerboseOutput vout{verbose};
         vout << "osm-tags-transform " << PROJECT_VERSION << " started\n";
         if (geom_proc == geom_proc_type::none) {
             vout << "No geometry processing. bbox will not be available\n";
