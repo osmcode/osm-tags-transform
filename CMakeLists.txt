@@ -26,7 +26,7 @@ endif()
 #
 #------------------------------------------------------------------------------
 
-find_package(Osmium 2.15.4 REQUIRED COMPONENTS io)
+find_package(Osmium 2.13 REQUIRED COMPONENTS io)
 include_directories(SYSTEM ${OSMIUM_INCLUDE_DIRS} ${PROTOZERO_INCLUDE_DIR})
 set(LIBS ${OSMIUM_LIBRARIES})
 
