@@ -394,7 +394,7 @@ void Handler::relation(osmium::Relation const &relation)
     m_out_buffer->commit();
 }
 
-void Handler::output_memory_used(osmium::VerboseOutput *vout)
+void Handler::output_memory_used(osmium::util::VerboseOutput *vout)
 {
     constexpr auto const mbytes = 1024UL * 1024UL;
 
