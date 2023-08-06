@@ -107,6 +107,8 @@ On Debian/Ubuntu you can install these (and cmake) with:
 
 ```
 apt install \
+    make \
+    g++ \
     cmake \
     libbz2-dev \
     libexpat1-dev \
